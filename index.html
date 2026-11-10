@@ -81,7 +81,7 @@
       <li class="link"><a href="openapi.json">openapi.json</a></li>
       <li class="link"><a href="https://github.com/nunomaduro/dev-null.sh">server source</a></li>
     </ul>
-    <p class="note" id="try-note">Unofficial and community-written, from the server code. This copy can't send requests. Serve it from dev-null.sh to turn on <code>Try it out</code> for public <code>GET</code> endpoints.</p>
+    <p class="note" id="try-note">Unofficial and community-written, from the server code. This copy can't send requests. Serve it from dev-null.sh or GitHub Pages to turn on <code>Try it out</code> for public <code>GET</code> endpoints.</p>
   </div>
 </header>
 <main id="swagger-ui"></main>
@@ -90,8 +90,8 @@
 <script>
   (function () {
     var host = location.hostname;
-    // Requests only work where the browser may reach the API: on dev-null.sh itself or a local dev server.
-    var canTry = /(^|\.)dev-null\.sh$/.test(host) || host === "localhost" || host === "127.0.0.1";
+    // Requests only work where the browser may reach the API: dev-null.sh itself, GitHub Pages, or a local dev server.
+    var canTry = /(^|\.)dev-null\.sh$/.test(host) || /\.github\.io$/.test(host) || host === "localhost" || host === "127.0.0.1";
     if (canTry) {
       document.getElementById("yaml-link").hidden = false;
       document.getElementById("try-note").textContent =

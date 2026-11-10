@@ -12,11 +12,15 @@ middleware.
 |---|---|
 | `openapi.yaml` / `openapi.json` | The spec |
 | `openapi.js` | The same spec as `window.DEVNULL_OPENAPI`, so the page works without fetching anything |
-| `index.html` | Swagger UI 5.34.0 (JS from jsDelivr, pinned with SRI). On `dev-null.sh` or `localhost` it turns on deep links and "Try it out" for public `GET`s |
+| `index.html` | Swagger UI 5.34.0 (JS from jsDelivr, pinned with SRI). On `dev-null.sh`, GitHub Pages or `localhost` it turns on deep links and "Try it out" for public `GET`s |
 | `swagger-ui.css` | Swagger UI's stylesheet |
 | `build_spec.py` | Generates the spec. Run `python3 build_spec.py .` (needs PyYAML) |
 
-## Hosting it on dev-null.sh
+## Hosting it
+
+Live at <https://talacha.github.io/dev-null/>, served from `main` by GitHub Pages.
+
+### On dev-null.sh
 
 Copy the folder to `public/docs/api/`. It's then served at `https://dev-null.sh/docs/api/`, and no route is needed.
 CORS isn't involved because the page and the API share an origin.
