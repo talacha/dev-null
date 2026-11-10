@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>/dev/null API Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="swagger-ui.css">
+<style>
+  :root {
+    /* Layout: a terminal-dark masthead like dev-null.sh, then Swagger UI's reference on a quiet light sheet. */
+    --void: #111112;          /* dev-null.sh theme-color */
+    --void-line: #2a2a2e;
+    --sheet: #f7f7f8;
+    --ink: #1b1b1f;
+    --muted: #5e5e66;
+    --lane: #3b6cf6;          /* /dev/null's blue */
+    --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    color-scheme: light;
+  }
+  html, body { margin: 0; background: var(--sheet); color: var(--ink); font-family: var(--font-body); }
+
+  .masthead { background: var(--void); color: #ededf0; border-bottom: 1px solid var(--void-line); }
+  .masthead-inner { max-width: 1460px; margin: 0 auto; padding: 28px 20px 24px; display: grid; gap: 14px; }
+  .prompt { font-family: var(--font-mono); font-size: 13px; color: #8b8b94; margin: 0; }
+  .prompt b { color: var(--lane); font-weight: 500; }
+  h1 { margin: 0; font-family: var(--font-mono); font-weight: 600; font-size: clamp(26px, 4vw, 34px); letter-spacing: -0.01em; text-wrap: balance; }
+  .lede { margin: 0; max-width: 68ch; color: #c4c4cc; font-size: 15px; line-height: 1.55; }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 0 0; padding: 0; list-style: none; }
+  .facts li { font-family: var(--font-mono); font-size: 12.5px; color: #d6d6dc; border: 1px solid var(--void-line); border-radius: 4px; padding: 4px 9px; font-variant-numeric: tabular-nums; }
+  .facts a { color: inherit; text-decoration: none; }
+  .facts a:hover, .facts a:focus-visible { color: #fff; text-decoration: underline; }
+  .facts li.link { border-color: #3a3a40; }
+  .note { margin: 0; font-size: 13px; color: #8b8b94; max-width: 90ch; line-height: 1.5; }
+  .note code { font-family: var(--font-mono); color: #c4c4cc; }
+  a:focus-visible { outline: 2px solid var(--lane); outline-offset: 2px; }
+
+  /* Swagger UI, tuned to the tokens. */
+  .swagger-ui { font-family: var(--font-body); color: var(--ink); }
+  .swagger-ui .wrapper { max-width: 1460px; padding: 0 20px; box-sizing: border-box; }
+  .swagger-ui .info { margin: 28px 0 8px; }
+  .swagger-ui .info .title { display: none; } /* the masthead carries the title */
+  .swagger-ui .info .markdown p, .swagger-ui .info .markdown li { font-size: 14.5px; line-height: 1.6; max-width: 80ch; }
+  .swagger-ui .info .markdown h2 { font-family: var(--font-mono); font-size: 18px; margin-top: 28px; border-top: 1px solid #e3e3e8; padding-top: 18px; }
+  .swagger-ui .info .markdown h3 { font-family: var(--font-mono); font-size: 15px; margin-top: 18px; }
+  .swagger-ui .info .markdown pre { overflow-x: auto; }
+  .swagger-ui .markdown code, .swagger-ui .renderedMarkdown code, .swagger-ui .opblock-summary-path, .swagger-ui .model, .swagger-ui .prop-type { font-family: var(--font-mono); }
+  .swagger-ui .markdown code, .swagger-ui .renderedMarkdown code { color: var(--ink); background: #e9e9ee; border-radius: 3px; padding: 1px 4px; font-weight: 500; }
+  .swagger-ui .markdown pre, .swagger-ui .renderedMarkdown pre { background: var(--void); color: #e6e6ea; border-radius: 6px; padding: 12px 14px; }
+  .swagger-ui .markdown pre code, .swagger-ui .renderedMarkdown pre code { background: none; color: inherit; padding: 0; font-weight: 400; }
+  .swagger-ui .info a, .swagger-ui .renderedMarkdown a { color: var(--lane); }
+  .swagger-ui .info table { border-collapse: collapse; font-size: 13.5px; }
+  .swagger-ui .info table th, .swagger-ui .info table td { border: 1px solid #e3e3e8; padding: 6px 10px; text-align: left; vertical-align: top; }
+  .swagger-ui .opblock-tag { font-family: var(--font-mono); font-size: 19px; }
+  .swagger-ui .scheme-container { background: transparent; box-shadow: none; padding: 12px 0; }
+  .swagger-ui .filter .operation-filter-input { border: 1px solid #cfcfd6; border-radius: 4px; font-family: var(--font-mono); }
+  .swagger-ui .opblock .opblock-summary-description { color: var(--muted); }
+
+  @media (max-width: 420px) {
+    .masthead-inner { padding: 22px 16px 18px; }
+    .swagger-ui .wrapper { padding: 0 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="prompt"><b>$</b> curl -s https://dev-null.sh/api/v1/users/nunomaduro</p>
+    <h1>/dev/null API</h1>
+    <p class="lede">The JSON API behind the /dev/null mobile, Mac and terminal apps, plus the plain-text endpoint that <code>devnull commit</code> posts to. Public reads need no auth. Everything else is signed with an SSH key.</p>
+    <ul class="facts">
+      <li>OpenAPI 3.1</li>
+      <li id="fact-ops">121 operations</li>
+      <li>base https://dev-null.sh/api</li>
+      <li>source nunomaduro/dev-null.sh@32315b3 · 2026-11-09</li>
+      <li class="link" id="yaml-link" hidden><a href="openapi.yaml">openapi.yaml</a></li>
+      <li class="link"><a href="openapi.json">openapi.json</a></li>
+      <li class="link"><a href="https://github.com/nunomaduro/dev-null.sh">server source</a></li>
+    </ul>
+    <p class="note" id="try-note">Unofficial and community-written, from the server code. This copy can't send requests. Serve it from dev-null.sh to turn on <code>Try it out</code> for public <code>GET</code> endpoints.</p>
+  </div>
+</header>
+<main id="swagger-ui"></main>
+<script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.34.0/swagger-ui-bundle.js" integrity="sha384-9Td7MKiIr2S83E1kZyyVi8KdJw/S8CpAvu0llLyMeg0xq/hDGiZJfVn0fV4llCmK" crossorigin="anonymous"></script>
+<script src="openapi.js"></script>
+<script>
+  (function () {
+    var host = location.hostname;
+    // Requests only work where the browser may reach the API: on dev-null.sh itself or a local dev server.
+    var canTry = /(^|\.)dev-null\.sh$/.test(host) || host === "localhost" || host === "127.0.0.1";
+    if (canTry) {
+      document.getElementById("yaml-link").hidden = false;
+      document.getElementById("try-note").textContent =
+        "Unofficial and community-written, from the server code. Try it out works for public GET endpoints. Signed endpoints need an SSH signature (see Authentication).";
+    }
+    var spec = window.DEVNULL_OPENAPI;
+    if (spec && spec.paths) {
+      var n = 0;
+      Object.keys(spec.paths).forEach(function (p) { n += Object.keys(spec.paths[p]).length; });
+      document.getElementById("fact-ops").textContent = n + " operations";
+    }
+    window.ui = SwaggerUIBundle({
+      dom_id: "#swagger-ui",
+      spec: spec,
+      url: spec ? undefined : "openapi.json",
+      deepLinking: canTry,
+      docExpansion: "none",
+      filter: true,
+      defaultModelsExpandDepth: 0,
+      defaultModelExpandDepth: 2,
+      displayRequestDuration: true,
+      showExtensions: false,
+      tryItOutEnabled: false,
+      supportedSubmitMethods: canTry ? ["get"] : [],
+      validatorUrl: null,
+      syntaxHighlight: { activated: true, theme: "agate" },
+      presets: [SwaggerUIBundle.presets.apis],
+      layout: "BaseLayout"
+    });
+  })();
+</script>
+</body>
+</html>
